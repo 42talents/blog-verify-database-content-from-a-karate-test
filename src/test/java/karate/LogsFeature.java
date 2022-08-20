@@ -22,12 +22,10 @@ SOFTWARE. */
 package karate;
 
 import com.intuit.karate.junit5.Karate;
-import org.junit.jupiter.api.Tag;
 
 public class LogsFeature extends KarateFeature {
 
   @Karate.Test
-  @Tag("junit")
   public Karate createLog() {
     return karateSzenario("Create a new log entry");
   }

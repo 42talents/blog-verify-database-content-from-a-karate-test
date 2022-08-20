@@ -21,14 +21,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 package com._42talents.spring_boot_karate_example;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest
+@SpringBootTest(
+    classes = {SpringBootKarateExampleApplication.class},
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-class SpringBootKarateExampleApplicationTests extends IntegrationsTest {
+public abstract class IntegrationsTest {
 
-  @Test
-  void contextLoads() {}
+  public static final PostgreSQLContainer<?> postgreDBContainer;
+
+  static {
+    postgreDBContainer = new PostgreSQLContainer<>("postgres:9.4");
+    postgreDBContainer.start();
+  }
+
+  @DynamicPropertySource
+  public static void postgresSettings(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", postgreDBContainer::getJdbcUrl);
+    registry.add("spring.datasource.username", postgreDBContainer::getUsername);
+    registry.add("spring.datasource.password", postgreDBContainer::getPassword);
+  }
 }

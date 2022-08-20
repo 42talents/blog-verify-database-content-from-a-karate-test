@@ -21,34 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 package karate;
 
-import com._42talents.spring_boot_karate_example.SpringBootKarateExampleApplication;
+import com._42talents.spring_boot_karate_example.IntegrationsTest;
 import com.intuit.karate.junit5.Karate;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest(
-    classes = {SpringBootKarateExampleApplication.class},
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
-public class KarateFeature {
+public class KarateFeature extends IntegrationsTest {
 
   @LocalServerPort private String localServerPort;
-
-  @Container
-  public static PostgreSQLContainer<?> postgreDBContainer =
-      new PostgreSQLContainer<>("postgres:9.4");
-
-  @DynamicPropertySource
-  public static void postgresSettings(DynamicPropertyRegistry registry) {
-    registry.add("spring.datasource.url", postgreDBContainer::getJdbcUrl);
-    registry.add("spring.datasource.username", postgreDBContainer::getUsername);
-    registry.add("spring.datasource.password", postgreDBContainer::getPassword);
-  }
 
   protected Karate karateSzenario(String scenarioName) {
 

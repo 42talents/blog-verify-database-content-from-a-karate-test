@@ -21,28 +21,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 package karate;
 
-import com._42talents.spring_boot_karate_example.SpringBootKarateExampleApplication;
 import com.intuit.karate.junit5.Karate;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
-@SpringBootTest(
-    classes = {SpringBootKarateExampleApplication.class},
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class WebRootFeature {
-
-  @LocalServerPort private String localServerPort;
+public class WebRootFeature extends KarateFeature {
 
   @Karate.Test
   public Karate redirect() {
     return karateSzenario("redirect to github");
-  }
-
-  private Karate karateSzenario(String s) {
-    return Karate.run()
-        .scenarioName(s)
-        .relativeTo(getClass())
-        .systemProperty("karate.port", localServerPort)
-        .karateEnv("dev");
   }
 }
