@@ -19,29 +19,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
-package com._42talents.spring_boot_karate_example;
+package karate;
 
-import java.sql.SQLException;
-import org.h2.tools.Server;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.util.SocketUtils;
+import com.intuit.karate.junit5.Karate;
+import org.junit.jupiter.api.Tag;
 
-@Configuration
-public class H2Server {
+public class LogsFeature extends KarateFeature {
 
-  @Value("${local.server.port}")
-  private int localServerPort;
-
-  @Bean(initMethod = "start", destroyMethod = "stop")
-  public Server inMemoryH2DatabaseaServer() throws SQLException {
-    int h2Port = SocketUtils.findAvailableTcpPort();
-
-    if (localServerPort == 0) localServerPort = 8080;
-    int h2DbPort = localServerPort + 100;
-    System.getProperties().put("h2db.port", h2DbPort);
-    return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "" + h2DbPort);
+  @Karate.Test
+  @Tag("junit")
+  public Karate createLog() {
+    return karateSzenario("Create a new log entry");
   }
 }

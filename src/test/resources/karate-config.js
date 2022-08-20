@@ -6,14 +6,17 @@ function fn() {
         karate.log('karate.env set to "dev" as default.');
     }
     let config;
-    if (env === 'test') {
-        config = {
-            baseUrl: 'https://spring-boot-karate-example.herokuapp.com'
+    if (env === 'dev') {
+        let postgresConfig = {
+            url: karate.properties['postgres.url'] || "jdbc:postgresql://localhost:5432/",
+            username: karate.properties['postgres.username'] || "postgres",
+            password: karate.properties['postgres.password'] || "test",
+            driver: karate.properties['postgres.driver'] || "org.postgresql.Driver",
         }
-    } else if (env === 'dev') {
         let port = karate.properties['karate.port'] || '8080'
         config = {
-            baseUrl: 'http://localhost:' + port
+            baseUrl: 'http://localhost:' + port,
+            postgresConfig: postgresConfig
         }
     } else {
         throw 'Unknown environment [' + env + '].'

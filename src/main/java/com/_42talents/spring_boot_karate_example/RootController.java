@@ -31,6 +31,6 @@ public class RootController {
   @GetMapping(path = "/")
   public RedirectView root() {
     return new RedirectView(
-        "https://github.com/42talents/blog-3-ways-to-run-karate-tests-for-spring-boot-applications");
+        "https://github.com/42talents/blog-verify-database-content-from-a-karate-test");
   }
 }

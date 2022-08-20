@@ -35,7 +35,7 @@ public class DbUtility<T> {
     String url = (String) config.get("url");
     String username = (String) config.get("username");
     String password = (String) config.get("password");
-    String driver = (String) config.get("driverClassName");
+    String driver = (String) config.get("driver");
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName(driver);
     dataSource.setUrl(url);
